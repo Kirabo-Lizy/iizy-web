@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/* Radix Colors — https://www.radix-ui.com/colors
+   Violet (iizy's brand hue) + Plum/Pink accents + Mauve gray,
+   the gray Radix recommends pairing with violet/plum/pink.
+   Light scales apply by default; any element with `.dark-theme`
+   switches the same tokens to Radix's official dark scales. */
+@import "@radix-ui/colors/violet.css";
+@import "@radix-ui/colors/violet-dark.css";
+@import "@radix-ui/colors/violet-alpha.css";
+@import "@radix-ui/colors/violet-dark-alpha.css";
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/plum-dark.css";
+@import "@radix-ui/colors/pink.css";
+@import "@radix-ui/colors/pink-dark.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/mauve-dark.css";
+@import "@radix-ui/colors/mauve-alpha.css";
+@import "@radix-ui/colors/mauve-dark-alpha.css";
+
+@theme inline {
+  --color-*: initial;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-violet-1: var(--violet-1);
+  --color-violet-2: var(--violet-2);
+  --color-violet-3: var(--violet-3);
+  --color-violet-4: var(--violet-4);
+  --color-violet-5: var(--violet-5);
+  --color-violet-6: var(--violet-6);
+  --color-violet-7: var(--violet-7);
+  --color-violet-8: var(--violet-8);
+  --color-violet-9: var(--violet-9);
+  --color-violet-10: var(--violet-10);
+  --color-violet-11: var(--violet-11);
+  --color-violet-12: var(--violet-12);
+  --color-violet-a3: var(--violet-a3);
+  --color-violet-a5: var(--violet-a5);
+  --color-violet-a7: var(--violet-a7);
+
+  --color-plum-3: var(--plum-3);
+  --color-plum-4: var(--plum-4);
+  --color-plum-6: var(--plum-6);
+  --color-plum-9: var(--plum-9);
+  --color-plum-11: var(--plum-11);
+  --color-plum-12: var(--plum-12);
+
+  --color-pink-2: var(--pink-2);
+  --color-pink-3: var(--pink-3);
+  --color-pink-4: var(--pink-4);
+  --color-pink-5: var(--pink-5);
+  --color-pink-6: var(--pink-6);
+  --color-pink-7: var(--pink-7);
+  --color-pink-9: var(--pink-9);
+  --color-pink-11: var(--pink-11);
+  --color-pink-12: var(--pink-12);
+
+  --color-mauve-1: var(--mauve-1);
+  --color-mauve-2: var(--mauve-2);
+  --color-mauve-3: var(--mauve-3);
+  --color-mauve-4: var(--mauve-4);
+  --color-mauve-5: var(--mauve-5);
+  --color-mauve-6: var(--mauve-6);
+  --color-mauve-7: var(--mauve-7);
+  --color-mauve-8: var(--mauve-8);
+  --color-mauve-9: var(--mauve-9);
+  --color-mauve-10: var(--mauve-10);
+  --color-mauve-11: var(--mauve-11);
+  --color-mauve-12: var(--mauve-12);
+  --color-mauve-a3: var(--mauve-a3);
+  --color-mauve-a4: var(--mauve-a4);
+  --color-mauve-a6: var(--mauve-a6);
+
+  /* Fontshare (Indian Type Foundry), free for commercial use */
+  --font-display: "Chillax", ui-rounded, system-ui, sans-serif;
+  --font-sans: "General Sans", system-ui, -apple-system, sans-serif;
+
+  --ease-out-soft: cubic-bezier(.2, .7, .1, 1);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body {
+    @apply bg-violet-2 font-sans text-mauve-12 antialiased;
+    overflow-x: clip;
+    font-feature-settings: "ss01", "kern";
+  }
+  ::selection { background: var(--violet-5); color: var(--violet-12); }
+  :focus-visible { outline: 2px solid var(--violet-9); outline-offset: 3px; border-radius: 8px; }
+  .dark-theme { color: var(--mauve-12); }
+}
+
+@layer components {
+  /* bullet-journal dot grid */
+  .dot-grid {
+    background-image: radial-gradient(var(--violet-a5) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+  }
+  .sticker {
+    filter: drop-shadow(0 10px 14px rgb(47 38 95 / .22));
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+  .tape {
+    @apply absolute h-6 w-20 rounded-[3px];
+    background: repeating-linear-gradient(45deg, rgb(255 255 255 / .55) 0 6px, rgb(255 255 255 / .35) 6px 12px), var(--pink-5);
+    box-shadow: 0 1px 2px rgb(0 0 0 / .06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* Radix Accordion height animation */
+.accordion-content[data-state="open"] { animation: acc-down .45s cubic-bezier(.2,.7,.1,1); }
+.accordion-content[data-state="closed"] { animation: acc-up .35s cubic-bezier(.2,.7,.1,1); }
+@keyframes acc-down { from { height: 0; opacity: 0; } to { height: var(--radix-accordion-content-height); opacity: 1; } }
+@keyframes acc-up { from { height: var(--radix-accordion-content-height); opacity: 1; } to { height: 0; opacity: 0; } }
+@keyframes marquee { to { transform: translateX(-50%); } }

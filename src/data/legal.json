@@ -1,0 +1,721 @@
+{
+ "hub": {
+  "title": "Legal & Safety",
+  "subtitle": "Clear summaries first, full details when you want them. You do not need to read every document each time you use iizy."
+ },
+ "order": [
+  "privacy",
+  "terms",
+  "community-guidelines",
+  "teen-safety",
+  "subscription-terms",
+  "refund-policy",
+  "cookies",
+  "wellbeing-notice"
+ ],
+ "docs": {
+  "privacy": {
+   "short": [
+    "Private goals, budgets, cycle entries and reflections are not placed in public spaces.",
+    "We do not sell personal information.",
+    "You can access, export, correct or delete information through Settings or by contacting us."
+   ],
+   "sections": [
+    {
+     "title": "Who this policy covers",
+     "blocks": [
+      {
+       "p": "This policy covers the iizy website and mobile app. Kirabo Prosper Ruth, based in Uganda, is responsible for deciding how iizy processes personal information. Privacy and support requests: kiraboprosperofficial@gmail.com. Payment providers and external sites have their own policies."
+      }
+     ],
+     "id": "who-this-policy-covers"
+    },
+    {
+     "title": "Information we collect",
+     "blocks": [
+      {
+       "p": "We collect information you provide, information created when you use the service, limited technical information needed to operate and secure it, and purchase status supplied by Google Play, Paddle or RevenueCat."
+      },
+      {
+       "list": [
+        "Account: email, username, display name, profile image and authentication identifiers.",
+        "Age safety: private date of birth or age range, country/policy result, consent status and guardian email where permission is required.",
+        "Planning: goals, habits, vision boards, focus sessions, check-ins and reflections.",
+        "Social: posts, comments, reactions, connections, Circles, Messages, reports and blocks.",
+        "Events: invitations, RSVPs, passes and attendance controls.",
+        "Sensitive private tools: cycle/wellbeing entries and budget information.",
+        "Technical: device/browser details, security events, errors and network information.",
+        "Calling and notifications: microphone/camera streams when enabled, participants, call timing/status, device identifiers, push tokens and preferences.",
+        "Billing: account/customer identifiers, product and subscription status and purchase/refund records. Payment-card details are entered with the provider, not stored in iizy user records."
+       ]
+      }
+     ],
+     "id": "information-we-collect"
+    },
+    {
+     "title": "How we use information",
+     "blocks": [
+      {
+       "p": "We use information to provide and personalize iizy, authenticate accounts, apply privacy and age protections, deliver requested communications, process purchases, prevent abuse, respond to reports, maintain reliability and satisfy legal obligations. Private wellbeing, messages, budgets and Clarity content are not used to recommend public posts, people or advertising."
+      }
+     ],
+     "id": "how-we-use-information"
+    },
+    {
+     "title": "Email choices",
+     "blocks": [
+      {
+       "p": "Requested account verification and password-reset emails help secure your account. Guardian email is used for the permission request and related safety communications, not optional reminders. Adult users may separately opt in to a one-time welcome and a weekly reminder in Settings → Notifications. Both are off by default. Weekly delivery uses your selected day, local hour and time zone; optional emails do not contain private goals, Messages, wellbeing or budget details. Brevo receives your account email, first name and the email content to deliver these messages. You can stop optional emails from the link in each email without signing in, change your choices in Settings, or contact support. Stopping optional emails does not cancel billing or requested security communications. Google Play or Paddle supplies purchase receipts and billing notices under its own policies."
+      }
+     ],
+     "id": "email-choices"
+    },
+    {
+     "title": "Sharing",
+     "blocks": [
+      {
+       "p": "We share information only with service providers acting for iizy, with other users according to your visibility choices, when required by law, to protect people and the service, or in a properly disclosed business transfer. Providers include Firebase/Google Cloud for hosting, authentication, storage, push and AI processing; Agora for calls; RevenueCat for subscription status; Google Play for Android purchases; Google AdMob for eligible Android advertising; Brevo for service email; and Paddle for browser purchases when web checkout is enabled. Paddle acts as merchant of record for its transactions and processes billing information under its own privacy policy. We do not give guardians automatic access to a young person’s private messages, goals, cycle entries or budget."
+      },
+      {
+       "list": [
+        "Public content can be seen and reshared by others.",
+        "Private service providers receive only what is needed for their role.",
+        "We do not sell personal information or use guardian consent emails for marketing."
+       ]
+      }
+     ],
+     "id": "sharing"
+    },
+    {
+     "title": "Optional Pinterest connection",
+     "blocks": [
+      {
+       "p": "If you choose to connect your own Pinterest account, iizy uses Pinterest OAuth to request only the read permissions needed to show your public boards and supported image Pins inside a temporary inspiration view. iizy does not ask for your Pinterest password or session cookies, does not access another person’s account or secret boards, and does not create, edit, schedule, save or delete Pins or boards."
+      },
+      {
+       "p": "Pinterest previews remain on Pinterest and link to the original Pin. iizy does not permanently copy Pinterest media into your iizy boards, sell Pinterest content, or use Pinterest content to train Ask iizy or target advertising. Connection tokens are encrypted on the server, used only to provide the connection you requested, and can be revoked by disconnecting Pinterest in Settings or by removing iizy from your Pinterest account permissions."
+      }
+     ],
+     "id": "optional-pinterest-connection"
+    },
+    {
+     "title": "Calls and AI requests",
+     "blocks": [
+      {
+       "p": "Calling uses device microphone/camera permissions and Agora to transmit live media to participants. iizy does not offer call recording; another participant may record outside iizy. Call history and metadata are separate from live media. Device settings and call controls let you manage permissions."
+      },
+      {
+       "p": "When you use Ask iizy, your prompt and relevant selected context may be processed by our AI provider to generate a response. Responses can be inaccurate; avoid entering information you do not want processed for that purpose. Processing supports requested services, consent choices, security and legal obligations."
+      }
+     ],
+     "id": "calls-and-ai-requests"
+    },
+    {
+     "title": "Advertising",
+     "blocks": [
+      {
+       "p": "Eligible adult users of the free Android app may see clearly labelled advertising supplied by Google AdMob. Google Mobile Ads may process device or advertising identifiers, approximate location derived from network information, app interactions and diagnostic information for advertising delivery, measurement, fraud prevention and service reliability. Where required, Google’s consent form is shown before ads are requested and advertising privacy choices remain available in Settings. Paid iizy+ accounts, minors and accounts without verified adult age do not receive ads."
+      },
+      {
+       "list": [
+        "Private goals, habits, messages, budgets, wellbeing, cycle, journal and vision-board information is never sent to AdMob for targeting.",
+        "Declining optional personalized advertising does not remove access to iizy’s core features.",
+        "Advertising identifiers are not used to continue tracking an account after deletion."
+       ]
+      }
+     ],
+     "id": "advertising"
+    },
+    {
+     "title": "Retention and security",
+     "blocks": [
+      {
+       "p": "We keep information only as long as needed for the service, safety, disputes and legal obligations. Account and private planning records are kept while needed for your account and chosen features. Retention also depends on deletion choices, safety investigations, payment disputes and legal obligations. Account deletion removes account and owned records; some shared group content may remain with identity removed. Providers may retain their own billing records, and limited backup or legal/safety records may have separate retention needs. Content others copied or reshared is outside our control. Deleting your account does not cancel a subscription. We use authentication, access rules, secret management, encryption in transit and restricted audit records, but no system is completely secure."
+      }
+     ],
+     "id": "retention-and-security"
+    },
+    {
+     "title": "Your choices and rights",
+     "blocks": [
+      {
+       "p": "Settings lets you manage profile visibility, personalization, notifications, wellbeing data, export and account deletion. Depending on location, you may also have rights to access, correct, erase, restrict, object or complain to a regulator. Contact us to exercise a right. We may verify identity proportionately before acting. In Uganda, you can raise privacy complaints with the Personal Data Protection Office (pdpo.go.ug); you do not have to contact us first. Never send passwords or unnecessary sensitive documents."
+      }
+     ],
+     "id": "your-choices-and-rights"
+    },
+    {
+     "title": "Children and teenagers",
+     "blocks": [
+      {
+       "p": "iizy uses an age-aware experience. Unknown age is not treated as adult. Younger users receive private defaults and restricted social capabilities; guardian permission may be required under the configured policy. Age, country and consent state determine available capabilities. Features requiring permission remain restricted when permission is absent or withdrawn. Contact support if you believe a child’s information was collected without required permission."
+      }
+     ],
+     "id": "children-and-teenagers"
+    },
+    {
+     "title": "International use and changes",
+     "blocks": [
+      {
+       "p": "Data may be processed where our providers operate, subject to appropriate safeguards. We will post material policy changes, update the effective date and request renewed consent where required."
+      }
+     ],
+     "id": "international-use-and-changes"
+    }
+   ],
+   "links": [
+    {
+     "label": "Paddle Privacy Policy",
+     "href": "https://www.paddle.com/legal/privacy"
+    },
+    {
+     "label": "Uganda Personal Data Protection Office",
+     "href": "https://pdpo.go.ug"
+    }
+   ],
+   "subtitle": "How iizy uses and protects account, planning, social, wellbeing and age-safety information.",
+   "title": "Privacy Policy",
+   "effective": "7 October 2026"
+  },
+  "terms": {
+   "short": [
+    "Use iizy respectfully and follow the Community Guidelines.",
+    "You keep ownership of your content while granting the permissions needed to operate the service.",
+    "iizy is a planning and community tool—not medical, emergency, legal or financial advice."
+   ],
+   "sections": [
+    {
+     "title": "Operator",
+     "blocks": [
+      {
+       "p": "iizy is operated by Kirabo Prosper Ruth, based in Uganda. Support, privacy requests and complaints: kiraboprosperofficial@gmail.com."
+      }
+     ],
+     "id": "operator"
+    },
+    {
+     "title": "Agreement and eligibility",
+     "blocks": [
+      {
+       "p": "By creating or using an account, you agree to these Terms and the incorporated policies. Age eligibility and guardian permission depend on iizy’s configured country policy. Do not misrepresent age or consent authority. Use only capabilities available to your age and consent state; do not evade protective restrictions."
+      }
+     ],
+     "id": "agreement-and-eligibility"
+    },
+    {
+     "title": "Your account",
+     "blocks": [
+      {
+       "p": "Provide accurate information, protect your login and tell us promptly about unauthorized access. You are responsible for activity under your account unless applicable law says otherwise. We may restrict accounts to protect users, investigate abuse or comply with law."
+      }
+     ],
+     "id": "your-account"
+    },
+    {
+     "title": "Your content",
+     "blocks": [
+      {
+       "p": "You retain ownership of content you create. You give iizy a worldwide, non-exclusive, royalty-free license to host, process, reproduce and display it only as needed to provide the service in accordance with your visibility settings. This permission does not authorize publication of private content for marketing. This license ends when content is deleted, except for reasonable backups, legal retention and content others have independently reshared."
+      },
+      {
+       "list": [
+        "Only upload content you have permission to use.",
+        "Do not expose another person’s private information.",
+        "Public content may be copied by other users despite our controls."
+       ]
+      }
+     ],
+     "id": "your-content"
+    },
+    {
+     "title": "Acceptable use and moderation",
+     "blocks": [
+      {
+       "p": "You must follow the Community Guidelines. We may remove content, reduce distribution, suspend features or close accounts when reasonably necessary. You may contact support to challenge a moderation decision. Serious child-safety matters may be preserved or reported where legally required."
+      }
+     ],
+     "id": "acceptable-use-and-moderation"
+    },
+    {
+     "title": "iizy+ purchases",
+     "blocks": [
+      {
+       "p": "iizy+ Monthly has a USD base price of $3.99/month. Applicable tax and regional currency prices are shown before purchase. Android purchases use Google Play; browser purchases use Paddle when web checkout is enabled. Paddle is merchant of record for its transactions. Subscriptions renew monthly until cancelled through the billing provider. Deleting your account or uninstalling iizy does not cancel billing. Access normally continues until the paid period ends unless a refund, reversal or applicable law changes this. Subscription Terms and the Refund Policy apply."
+      }
+     ],
+     "id": "iizy-purchases"
+    },
+    {
+     "title": "Service and disclaimers",
+     "blocks": [
+      {
+       "p": "The service will evolve and features may change. We do not promise uninterrupted operation. Wellbeing, cycle, budget and productivity features are informational tools and do not provide professional advice, diagnosis, contraception guidance, fertility guarantees or emergency services."
+      }
+     ],
+     "id": "service-and-disclaimers"
+    },
+    {
+     "title": "Liability and disputes",
+     "blocks": [
+      {
+       "p": "To the maximum extent permitted by applicable law, iizy is not liable for indirect or consequential loss or user conduct. Nothing excludes rights or liability that cannot legally be excluded. These service Terms are governed by the laws of Uganda, subject to mandatory consumer protections and access to courts available in your place of residence. Contact support to try to resolve disputes. Paddle’s separate buyer terms govern its purchase transactions. No mandatory consumer remedies are waived."
+      }
+     ],
+     "id": "liability-and-disputes"
+    },
+    {
+     "title": "Ending use and contact",
+     "blocks": [
+      {
+       "p": "You may delete your account in Settings. We may end access for serious or repeated violations; contact support to challenge a moderation decision. Account deletion does not cancel billing. Provisions that by nature should survive termination will survive. Questions: kiraboprosperofficial@gmail.com."
+      }
+     ],
+     "id": "ending-use-and-contact"
+    },
+    {
+     "title": "Changes to these Terms",
+     "blocks": [
+      {
+       "p": "We publish material updates with a new effective date and provide notice or request renewed agreement where required. Changes do not retrospectively remove accrued rights. If you disagree, you may stop using the service and cancel future renewal through your billing provider."
+      }
+     ],
+     "id": "changes-to-these-terms"
+    }
+   ],
+   "links": [
+    {
+     "label": "Paddle Buyer Terms",
+     "href": "https://www.paddle.com/legal/buyer-terms"
+    },
+    {
+     "label": "Paddle Refund Policy",
+     "href": "https://www.paddle.com/legal/refund-policy"
+    },
+    {
+     "label": "Paddle purchase support and cancellation",
+     "href": "https://paddle.net"
+    },
+    {
+     "label": "Google Play subscriptions",
+     "href": "https://play.google.com/store/account/subscriptions"
+    }
+   ],
+   "subtitle": "The rules for creating an account, using iizy, sharing content and purchasing iizy+.",
+   "title": "Terms of Service",
+   "effective": "7 October 2026"
+  },
+  "community-guidelines": {
+   "short": [
+    "Be human: no harassment, hate, threats or unwanted sexual conduct.",
+    "Protect privacy, especially information about children and teenagers.",
+    "Report danger; do not retaliate or conduct your own investigation."
+   ],
+   "sections": [
+    {
+     "title": "Respect people",
+     "blocks": [
+      {
+       "p": "Do not bully, threaten, stalk, shame or target people based on protected characteristics. Do not coordinate harassment or encourage self-harm, violence or dangerous behavior."
+      }
+     ],
+     "id": "respect-people"
+    },
+    {
+     "title": "Protect young people",
+     "blocks": [
+      {
+       "p": "Sexual content involving minors, grooming, solicitation, exploitation, age evasion and attempts to move unsafe contact off-platform are prohibited. Adults must respect messaging and contact restrictions. We prioritize credible child-safety reports."
+      }
+     ],
+     "id": "protect-young-people"
+    },
+    {
+     "title": "Keep content authentic",
+     "blocks": [
+      {
+       "p": "Do not impersonate others, deceive people, manipulate engagement, spam, run scams or post dangerous misinformation. Clearly disclose material commercial relationships where required."
+      }
+     ],
+     "id": "keep-content-authentic"
+    },
+    {
+     "title": "Privacy and consent",
+     "blocks": [
+      {
+       "p": "Do not publish private messages, addresses, financial details, health information, intimate media or identifying information about another person without authorization. Never share someone’s cycle, budget or private planning information."
+      }
+     ],
+     "id": "privacy-and-consent"
+    },
+    {
+     "title": "Safety and legality",
+     "blocks": [
+      {
+       "p": "No illegal goods, sexual exploitation, credible threats, instructions facilitating serious wrongdoing, unauthorized sales, intellectual-property infringement or malicious software. Event organizers must describe events honestly and follow applicable safety and consumer rules."
+      }
+     ],
+     "id": "safety-and-legality"
+    },
+    {
+     "title": "Enforcement",
+     "blocks": [
+      {
+       "p": "Responses may include warnings, reduced visibility, content removal, feature limits, suspension or account termination. Context, severity, history and immediate risk matter. Emergency or legally required reports may be escalated to appropriate authorities."
+      }
+     ],
+     "id": "enforcement"
+    }
+   ],
+   "links": [],
+   "subtitle": "Simple rules that help Feed, Circles, Events and Messages remain welcoming and safe.",
+   "title": "Community Guidelines",
+   "effective": "7 October 2026"
+  },
+  "teen-safety": {
+   "short": [
+    "Unknown age is never treated as adult.",
+    "Guardian permission is a lifecycle, not a checkbox—and it does not remove minor protections.",
+    "Guardians do not automatically receive private messages, goals, cycle data or budgets."
+   ],
+   "sections": [
+    {
+     "title": "Age-aware accounts",
+     "blocks": [
+      {
+       "p": "iizy separates age state, consent state and feature capabilities. Date of birth and guardian details are stored privately. Profiles for minors use private defaults, reduced discoverability and age-aware messaging/event controls."
+      }
+     ],
+     "id": "age-aware-accounts"
+    },
+    {
+     "title": "Guardian permission",
+     "blocks": [
+      {
+       "p": "Where configured policy requires permission, social and sensitive features remain restricted while a guardian reviews clear disclosures and makes an affirmative decision. Requests expire, can be declined or revoked, and record the policy versions reviewed. Guardian email is used only for permission and safety communications unless separate marketing consent is given."
+      }
+     ],
+     "id": "guardian-permission"
+    },
+    {
+     "title": "Safety protections",
+     "blocks": [
+      {
+       "p": "iizy uses reporting, blocking, restricted adult-to-minor contact, hidden attendance, private sensitive records and prioritized child-safety review. Consent never authorizes unsafe contact or surveillance."
+      }
+     ],
+     "id": "safety-protections"
+    },
+    {
+     "title": "Private tools",
+     "blocks": [
+      {
+       "p": "Cycle tracking, wellbeing, budgets, private goals, reflections and Clarity content never appear in Feed, Circles, Messages, recommendations or public profiles. A guardian relationship alone does not grant access."
+      }
+     ],
+     "id": "private-tools"
+    },
+    {
+     "title": "Reporting concerns",
+     "blocks": [
+      {
+       "p": "Use in-app reporting for content or users. For urgent danger, contact local emergency services. Child-safety or privacy concerns can be sent to kiraboprosperofficial@gmail.com. Do not include unnecessary sensitive information in email."
+      }
+     ],
+     "id": "reporting-concerns"
+    },
+    {
+     "title": "Changes and safety responsibilities",
+     "blocks": [
+      {
+       "p": "Age and country settings, consent status and safety assessments can restrict capabilities. We may preserve or report serious safety matters when required by law. Guardians can withdraw permission through the consent process; permission never authorizes unsafe contact or surveillance."
+      }
+     ],
+     "id": "changes-and-safety-responsibilities"
+    }
+   ],
+   "links": [],
+   "subtitle": "How iizy applies age-aware privacy, guardian permission and protections for younger users.",
+   "title": "Teen & Child Safety Policy",
+   "effective": "7 October 2026"
+  },
+  "subscription-terms": {
+   "short": [
+    "The core iizy experience remains usable without iizy+.",
+    "Monthly USD base price: $3.99. Taxes and regional prices are confirmed at checkout.",
+    "Cancel through your billing provider at any time to stop future renewal."
+   ],
+   "sections": [
+    {
+     "title": "Operator",
+     "blocks": [
+      {
+       "p": "iizy is operated by Kirabo Prosper Ruth, based in Uganda. Support, privacy requests and complaints: kiraboprosperofficial@gmail.com."
+      }
+     ],
+     "id": "operator"
+    },
+    {
+     "title": "What iizy+ is",
+     "blocks": [
+      {
+       "p": "iizy+ is an optional subscription for expanded customization, capacity, insights and premium planning experiences. Essential privacy, account security, reporting, blocking, age safeguards, data export/deletion and core wellbeing controls are not paywalled."
+      }
+     ],
+     "id": "what-iizy-is"
+    },
+    {
+     "title": "Billing and renewal",
+     "blocks": [
+      {
+       "p": "iizy+ Monthly has a USD base price of $3.99/month. Applicable taxes and regional currency prices may vary; review the final amount before purchase. Android purchases use Google Play. Browser purchases use Paddle when web checkout is enabled; Paddle is merchant of record and its Buyer Terms and Refund Policy govern its transactions. Subscriptions renew monthly until cancelled through your billing provider. RevenueCat links subscription status to your iizy account."
+      }
+     ],
+     "id": "billing-and-renewal"
+    },
+    {
+     "title": "Trials and offers",
+     "blocks": [
+      {
+       "p": "No free trial or annual purchase is included unless expressly offered with its terms at checkout. Any offer must disclose eligibility, billing period and post-offer price before confirmation."
+      }
+     ],
+     "id": "trials-and-offers"
+    },
+    {
+     "title": "Cancellation, restoration and changes",
+     "blocks": [
+      {
+       "p": "Cancel at any time in Google Play Subscriptions or, for Paddle purchases, through the management link in your receipt or paddle.net. Cancel before the next renewal to prevent that charge. Access normally continues through the paid period. Uninstalling iizy or deleting your account does not cancel billing. Restore Purchases on Android or Refresh membership reconnects eligible paid access. Sign in to the account linked to your purchase. Provider notices and required consent apply to price changes; feature changes do not remove consumer rights."
+      }
+     ],
+     "id": "cancellation-restoration-and-changes"
+    },
+    {
+     "title": "Young users",
+     "blocks": [
+      {
+       "p": "Purchases by minors are subject to app-store family controls, authorization requirements and iizy’s age policy. Paying for iizy+ never bypasses guardian consent or safety restrictions."
+      }
+     ],
+     "id": "young-users"
+    },
+    {
+     "title": "Refunds and support",
+     "blocks": [
+      {
+       "p": "Refund requests may be submitted within 14 calendar days of the initial purchase, subject to the Refund Policy; approval is not automatic. Mandatory consumer rights remain unaffected. For Paddle purchases, use the receipt support link or paddle.net. For Google Play purchases, use Google Play refund support. Contact kiraboprosperofficial@gmail.com about access problems with the transaction reference; never send passwords or payment-card details."
+      }
+     ],
+     "id": "refunds-and-support"
+    }
+   ],
+   "links": [
+    {
+     "label": "Paddle Buyer Terms",
+     "href": "https://www.paddle.com/legal/buyer-terms"
+    },
+    {
+     "label": "Paddle Refund Policy",
+     "href": "https://www.paddle.com/legal/refund-policy"
+    },
+    {
+     "label": "Paddle purchase support and cancellation",
+     "href": "https://paddle.net"
+    },
+    {
+     "label": "Google Play subscriptions",
+     "href": "https://play.google.com/store/account/subscriptions"
+    }
+   ],
+   "subtitle": "Clear renewal, cancellation and purchase terms for optional iizy+ features.",
+   "title": "iizy+ Subscription Terms",
+   "effective": "7 October 2026"
+  },
+  "refund-policy": {
+   "short": [
+    "Submit refund requests within 14 days of the initial purchase, subject to this policy.",
+    "Submission alone does not guarantee refund approval.",
+    "Cancel at any time to stop future renewals. Mandatory consumer rights remain unaffected."
+   ],
+   "sections": [
+    {
+     "title": "Operator and scope",
+     "blocks": [
+      {
+       "p": "iizy is operated by Kirabo Prosper Ruth, based in Uganda. Support, privacy requests and complaints: kiraboprosperofficial@gmail.com."
+      },
+      {
+       "p": "This policy covers iizy+ subscriptions, not payments to third-party Event organizers. Your receipt identifies the billing provider, which processes payments and refunds under its applicable terms."
+      }
+     ],
+     "id": "operator-and-scope"
+    },
+    {
+     "title": "Initial purchase requests",
+     "blocks": [
+      {
+       "p": "Refund requests may be submitted within 14 calendar days of the initial purchase, subject to the Refund Policy. Submission alone does not guarantee a refund. Mandatory consumer rights remain unaffected."
+      },
+      {
+       "p": "Include your transaction reference and reason so the purchase can be located. Requests are reviewed in light of the service issue, availability of purchased features, provider terms and applicable law. The request window is not an unconditional money-back guarantee. Statutory withdrawal rights and remedies for faulty or misdescribed services remain intact."
+      }
+     ],
+     "id": "initial-purchase-requests"
+    },
+    {
+     "title": "Browser purchases through Paddle",
+     "blocks": [
+      {
+       "p": "Use the support link in your receipt or visit paddle.net to request a refund. Paddle is merchant of record; its Buyer Terms and Refund Policy apply, including regional withdrawal rights. Contact iizy support about persistent technical or access issues. Approved refunds are processed by Paddle to the original payment method where possible; provider processing times apply."
+      }
+     ],
+     "id": "browser-purchases-through-paddle"
+    },
+    {
+     "title": "Google Play purchases",
+     "blocks": [
+      {
+       "p": "Submit refund requests through Google Play refund support. Google’s terms and applicable consumer law govern its decisions and processing. Contact iizy support for service or entitlement issues with the order reference, never passwords or card details."
+      }
+     ],
+     "id": "google-play-purchases"
+    },
+    {
+     "title": "Renewals and cancellation",
+     "blocks": [
+      {
+       "p": "The initial-purchase request window does not create a new unconditional refund entitlement after each renewal. Contact your provider or iizy support about billing errors, duplicate or unauthorized charges and persistent service problems. Applicable provider terms and mandatory consumer remedies continue to apply."
+      },
+      {
+       "p": "Cancel at any time in Google Play Subscriptions or, for Paddle purchases, through the subscription-management link in your receipt or paddle.net. Cancellation stops future renewal and normally leaves access until the paid period ends. Cancellation and refunds are separate actions. Account deletion or uninstalling iizy does not cancel billing."
+      }
+     ],
+     "id": "renewals-and-cancellation"
+    },
+    {
+     "title": "Access and support",
+     "blocks": [
+      {
+       "p": "Refunds or reversals may end associated paid access. If your membership status is wrong, refresh membership and contact kiraboprosperofficial@gmail.com; do not purchase again to resolve an existing paid transaction. Include your account email, billing provider, transaction reference and a brief description, without passwords, API keys or full card details."
+      }
+     ],
+     "id": "access-and-support"
+    }
+   ],
+   "links": [
+    {
+     "label": "Paddle Buyer Terms",
+     "href": "https://www.paddle.com/legal/buyer-terms"
+    },
+    {
+     "label": "Paddle Refund Policy",
+     "href": "https://www.paddle.com/legal/refund-policy"
+    },
+    {
+     "label": "Paddle purchase support and cancellation",
+     "href": "https://paddle.net"
+    },
+    {
+     "label": "Google Play subscriptions",
+     "href": "https://play.google.com/store/account/subscriptions"
+    },
+    {
+     "label": "Google Play refund support",
+     "href": "https://support.google.com/googleplay/answer/2479637"
+    }
+   ],
+   "subtitle": "How to request a refund or cancel renewal of an iizy+ subscription.",
+   "title": "Refund Policy",
+   "effective": "7 October 2026"
+  },
+  "cookies": {
+   "short": [
+    "Essential storage keeps you signed in and remembers accessibility/theme choices.",
+    "Optional tracking requires the applicable consent choice where required by law.",
+    "Private wellbeing, budget, messages and age details must not be placed in analytics."
+   ],
+   "sections": [
+    {
+     "title": "Essential technologies",
+     "blocks": [
+      {
+       "p": "iizy and Firebase use cookies, tokens or similar browser storage for authentication, security, fraud prevention, offline behavior and user-requested preferences. These are necessary to provide the service."
+      }
+     ],
+     "id": "essential-technologies"
+    },
+    {
+     "title": "Analytics",
+     "blocks": [
+      {
+       "p": "iizy may use privacy-conscious measurement to understand reliability and broad product use. Exact birth dates, guardian email, messages, cycle dates, budget amounts and private reflections are excluded. Where consent is legally required, optional analytics must not load before consent."
+      }
+     ],
+     "id": "analytics"
+    },
+    {
+     "title": "Your controls",
+     "blocks": [
+      {
+       "p": "You can use browser/device controls and in-app privacy settings. Blocking essential storage may prevent login or requested features. Optional tracking is enabled only after the applicable consent choice where required. Billing checkout may use necessary storage under the provider’s own notice."
+      }
+     ],
+     "id": "your-controls"
+    }
+   ],
+   "links": [],
+   "subtitle": "A short explanation of browser storage, authentication and measurement technologies used by iizy.",
+   "title": "Cookies & Tracking Notice",
+   "effective": "7 October 2026"
+  },
+  "wellbeing-notice": {
+   "short": [
+    "These tools support personal awareness; they do not diagnose or treat any condition.",
+    "Cycle predictions are estimates—not contraception or fertility advice.",
+    "Budget tools are organizational aids—not regulated financial advice."
+   ],
+   "sections": [
+    {
+     "title": "Not professional advice",
+     "blocks": [
+      {
+       "p": "iizy does not provide medical, mental-health, emergency, legal, tax, investment or financial advice. Do not delay professional care or make high-risk decisions solely from app information."
+      }
+     ],
+     "id": "not-professional-advice"
+    },
+    {
+     "title": "Cycle and health information",
+     "blocks": [
+      {
+       "p": "Recorded dates, symptoms and predictions can be incomplete or inaccurate. Do not use iizy to prevent pregnancy, confirm pregnancy or diagnose a health condition. Seek qualified care for concerning symptoms. In an emergency, contact local emergency services."
+      }
+     ],
+     "id": "cycle-and-health-information"
+    },
+    {
+     "title": "Private by design",
+     "blocks": [
+      {
+       "p": "Wellbeing, cycle and budget information is private and excluded from public profiles, Feed, Circles, Messages and recommendation signals. You can export or permanently delete these categories in Settings."
+      }
+     ],
+     "id": "private-by-design"
+    },
+    {
+     "title": "Budget information",
+     "blocks": [
+      {
+       "p": "Calculations depend on information you enter and may contain errors. Verify important figures independently. iizy does not hold funds, execute transactions or guarantee financial outcomes."
+      }
+     ],
+     "id": "budget-information"
+    }
+   ],
+   "links": [],
+   "subtitle": "Important limits for cycle, check-in, reflection, planning and budget features.",
+   "title": "Wellbeing & Financial Tools Notice",
+   "effective": "7 October 2026"
+  }
+ }
+}
