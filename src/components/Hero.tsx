@@ -5,7 +5,8 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { ArrowDown, ArrowRight, Hand } from 'lucide-react'
 import { Phone } from './Phone'
 import { Sticker } from './Sticker'
-import { BrandIcon, brands } from '../lib/brand'
+import { brands } from '../lib/brand'
+import { BrandIcon } from './BrandIcon'
 
 const handles = ['yourname', 'girlinprogress', 'softlife', 'nextchapter', 'faithful', 'you']
 

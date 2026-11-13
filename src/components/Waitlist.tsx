@@ -5,12 +5,13 @@ import * as Checkbox from '@radix-ui/react-checkbox'
 import * as Dialog from '@radix-ui/react-dialog'
 import { BellRing, Check, Loader2, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { BrandIcon, brands } from '../lib/brand'
+import { brands } from '../lib/brand'
+import { BrandIcon } from './BrandIcon'
 import { Reveal } from './Reveal'
 import { Sticker } from './Sticker'
 import { cn } from '../lib/cn'
+import { joinWaitlist, type Platform } from '../lib/waitlist'
 
-type Platform = 'Android' | 'iOS'
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
 
 export function Waitlist() {
@@ -21,21 +22,24 @@ export function Waitlist() {
   const [errors, setErrors] = useState<{ email?: string; agree?: boolean }>({})
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
+  const [failed, setFailed] = useState(false)
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
     const next = { email: isEmail(email) ? undefined : 'Please enter a valid email address.', agree: !agree }
     setErrors(next)
-    if (next.email || next.agree) return
+    if (next.email || next.agree || loading) return
     setLoading(true)
-    /*
-     * DEMO — nothing is stored yet. Connect iizy's existing waitlist backend here (Firebase / Brevo):
-     * await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-     *   body: JSON.stringify({ email: email.trim(), platform }) })
-     */
-    await new Promise((r) => setTimeout(r, 900))
-    setLoading(false)
-    setDone(true)
+    setFailed(false)
+    try {
+      // Demo mode (stores nothing) until VITE_WAITLIST_ENDPOINT is set. See src/lib/waitlist.ts.
+      await joinWaitlist(email, platform)
+      setDone(true)
+    } catch {
+      setFailed(true)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -78,7 +82,7 @@ export function Waitlist() {
               <input
                 type="email" value={email} autoComplete="email" placeholder="you@example.com"
                 onChange={(e) => { setEmail(e.target.value); if (errors.email && isEmail(e.target.value)) setErrors((x) => ({ ...x, email: undefined })) }}
-                aria-invalid={!!errors.email} aria-describedby="email-err"
+                aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-err' : undefined}
                 className={cn('mt-2 w-full rounded-2xl border bg-mauve-1 px-4 py-3.5 text-[16px] text-mauve-12 outline-none transition-all placeholder:text-mauve-9 focus:bg-white focus:ring-4',
                   errors.email ? 'border-pink-9 focus:ring-pink-4' : 'border-mauve-6 focus:border-violet-8 focus:ring-violet-4')}
               />
@@ -111,6 +115,13 @@ export function Waitlist() {
               {loading ? <Loader2 className="size-4 animate-spin" /> : <BellRing className="size-4" />}
               {loading ? 'Joining…' : 'Notify me'}
             </motion.button>
+            <AnimatePresence>
+              {failed && (
+                <motion.p role="alert" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="mt-3 rounded-xl bg-pink-3 px-4 py-3 text-sm text-pink-11">
+                  We couldn't add you just now. Check your connection and try again.
+                </motion.p>
+              )}
+            </AnimatePresence>
             <p className="mt-4 text-xs leading-relaxed text-mauve-10">
               Joining doesn't reserve a username. Names are subject to availability at signup. Unsubscribe anytime.{' '}
               <Link to="/privacy" className="underline underline-offset-2 hover:text-violet-11">Privacy policy</Link>

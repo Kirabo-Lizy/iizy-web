@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
 import { ArrowUp } from 'lucide-react'
 import { useLenis } from 'lenis/react'
-import { BrandIcon, CONTACT, socials } from '../lib/brand'
+import { CONTACT, socials } from '../lib/brand'
+import { BrandIcon } from './BrandIcon'
 import { legalNav } from '../lib/legal-nav'
 import { Logo } from './Logo'
+
+const YEAR = new Date().getFullYear()
 
 export function Footer() {
   const lenis = useLenis()
@@ -36,7 +39,7 @@ export function Footer() {
           <nav aria-label="Explore">
             <p className="text-xs font-medium uppercase tracking-[.16em] text-mauve-10">Explore</p>
             <ul className="mt-4 space-y-2.5">
-              {[['Features', '/#board'], ['Clarity Map', '/#map'], ['Founder', '/#founder'], ['FAQ', '/#faq'], ['Join waitlist', '/#waitlist']].map(([l, h]) => (
+              {[['Features', '/#board'], ['Clarity Map', '/#map'], ['Pricing', '/#pricing'], ['Founder', '/#founder'], ['FAQ', '/#faq'], ['Join waitlist', '/#waitlist']].map(([l, h]) => (
                 <li key={l}><Link to={h} className="text-[15px] text-mauve-11 hover:text-mauve-12">{l}</Link></li>
               ))}
             </ul>
@@ -52,7 +55,7 @@ export function Footer() {
       </div>
 
       <div className="mx-auto flex max-w-6xl items-center justify-between border-t border-mauve-5 px-5 py-6 text-sm text-mauve-10">
-        <span>© {new Date().getFullYear()} iizy</span>
+        <span>© {YEAR} iizy</span>
         <button onClick={() => lenis?.scrollTo(0, { duration: 1.6 })} className="inline-flex items-center gap-1.5 hover:text-mauve-12">Back to top <ArrowUp className="size-4" /></button>
       </div>
     </footer>

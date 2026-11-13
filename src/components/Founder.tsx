@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { ArrowUpRight, BadgeCheck, MapPin } from 'lucide-react'
-import { BrandIcon, socials } from '../lib/brand'
+import { socials } from '../lib/brand'
+import { BrandIcon } from './BrandIcon'
 import { Kicker, Reveal } from './Reveal'
 import { Sticker } from './Sticker'
 
@@ -23,7 +24,7 @@ export function Founder() {
               <div className="rounded-full bg-[conic-gradient(var(--violet-9),var(--pink-9),var(--plum-9),var(--violet-9))] p-[3px]">
                 <div className="grid size-20 place-items-center overflow-hidden rounded-full border-[3px] border-white bg-[linear-gradient(140deg,var(--pink-5),var(--violet-6))]">
                   {photo ? (
-                    <img src="/kirabo.jpg" alt="Kirabo Prosper" className="size-full object-cover" onError={() => setPhoto(false)} />
+                    <img src="/kirabo.jpg" alt="Kirabo Prosper" width={80} height={89} decoding="async" className="size-full object-cover" onError={() => setPhoto(false)} />
                   ) : (
                     <span className="font-display text-3xl font-semibold text-violet-12">K</span>
                   )}

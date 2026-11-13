@@ -3,7 +3,7 @@ import { Kicker, Reveal } from './Reveal'
 
 export function Pricing() {
   return (
-    <section className="pb-24 sm:pb-32">
+    <section id="pricing" className="pb-24 sm:pb-32">
       <div className="mx-auto max-w-6xl px-5">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal><Kicker>Simple & honest</Kicker></Reveal>

@@ -35,7 +35,6 @@ export default function LegalDoc({ slug }: { slug: string }) {
 
   useEffect(() => {
     document.title = `${doc.title} — iizy`
-    setActive(doc.sections[0]?.id)
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => e.isIntersecting && setActive(e.target.id))
     }, { rootMargin: '-30% 0px -60% 0px' })

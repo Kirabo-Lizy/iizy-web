@@ -8,6 +8,7 @@ import { legalNav } from './lib/legal-nav'
 
 const LegalHub = lazy(() => import('./pages/LegalHub'))
 const LegalDoc = lazy(() => import('./pages/LegalDoc'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -35,7 +36,7 @@ export default function App() {
             {legalNav.map(({ slug }) => (
               <Route key={slug} path={`/${slug}`} element={<LegalDoc key={slug} slug={slug} />} />
             ))}
-            <Route path="*" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           </Suspense>
         </Tooltip.Provider>

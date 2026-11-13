@@ -9,14 +9,35 @@ import { cn } from '../lib/cn'
 const links = [
   { href: '#board', label: 'Features' },
   { href: '#map', label: 'Clarity Map' },
+  { href: '#pricing', label: 'Pricing' },
   { href: '#founder', label: 'Founder' },
   { href: '#faq', label: 'FAQ' },
 ]
+
+/** Which section is under the middle of the viewport, for highlighting its nav link. */
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = useState<string | null>(null)
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) setActive(e.target.id)
+        else setActive((cur) => (cur === e.target.id ? null : cur))
+      }),
+      { rootMargin: '-45% 0px -50% 0px' },
+    )
+    ids.forEach((id) => { const el = document.getElementById(id); if (el) io.observe(el) })
+    return () => io.disconnect()
+  }, [ids])
+  return active
+}
+
+const sectionIds = links.map((l) => l.href.slice(1))
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const lenis = useLenis()
+  const active = useActiveSection(sectionIds)
   useLenis(({ scroll }) => setScrolled(scroll > 24), [])
 
   useEffect(() => {
@@ -51,13 +72,17 @@ export function Nav() {
           Currently in testing
         </span>
 
-        <ul className="ml-auto hidden items-center gap-1 md:flex">
+        <ul className="ml-auto hidden items-center gap-0.5 md:flex lg:gap-1">
           {links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
                 onClick={(e) => { e.preventDefault(); go(l.href) }}
-                className="rounded-full px-4 py-2 text-[15px] font-medium text-mauve-11 transition-colors hover:bg-violet-3 hover:text-violet-12"
+                aria-current={active === l.href.slice(1) ? 'true' : undefined}
+                className={cn(
+                  'rounded-full px-3 py-2 text-[15px] lg:px-4 font-medium transition-colors hover:bg-violet-3 hover:text-violet-12',
+                  active === l.href.slice(1) ? 'bg-violet-3 text-violet-12' : 'text-mauve-11',
+                )}
               >
                 {l.label}
               </a>
