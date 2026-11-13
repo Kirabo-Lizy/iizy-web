@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'motion/react'
+import { FlowCanvas } from './FlowCanvas'
 
 const milestones = [
   { at: 0.02, month: 'January', title: 'It started with one goal.', body: 'Downloaded iizy. Wrote down a single goal: start my own business.', sticker: 'seedling', x: 40, y: 250 },
@@ -34,6 +35,10 @@ export function ClarityMap() {
         <div className="pointer-events-none absolute -right-40 top-10 size-[640px] rounded-full bg-violet-9/25 blur-[120px]" />
         <div className="pointer-events-none absolute -left-40 bottom-0 size-[520px] rounded-full bg-pink-9/15 blur-[120px]" />
         <div className="dot-grid pointer-events-none absolute inset-0 opacity-40" />
+        {/* 3D flow: the journey's ribbons light up as you scroll */}
+        <div className="flow-mask-map pointer-events-none absolute inset-0 opacity-80">
+          <FlowCanvas mode="map" progress={scrollYProgress} />
+        </div>
 
         <div className="relative mx-auto grid w-full max-w-6xl items-center gap-8 px-5 md:grid-cols-[.9fr_1.1fr] md:gap-16">
           <div className="order-2 md:order-1">

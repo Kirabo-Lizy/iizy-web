@@ -5,6 +5,7 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { ArrowDown, ArrowRight, Hand } from 'lucide-react'
 import { Phone } from './Phone'
 import { Sticker } from './Sticker'
+import { FlowCanvas } from './FlowCanvas'
 import { brands } from '../lib/brand'
 import { BrandIcon } from './BrandIcon'
 
@@ -43,6 +44,10 @@ export function Hero() {
 
   return (
     <section id="top" ref={box} className="dot-grid relative overflow-hidden pt-32 sm:pt-40">
+      {/* 3D flow: ribbons of small steps streaming across the hero */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[100svh] min-h-[640px] flow-mask-hero">
+        <FlowCanvas mode="hero" />
+      </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-violet-2 to-transparent" />
 
       {/* draggable stickers — the same set as Kirabo's Linktree */}

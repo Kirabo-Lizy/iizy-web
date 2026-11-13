@@ -122,4 +122,32 @@
 .accordion-content[data-state="closed"] { animation: acc-up .35s cubic-bezier(.2,.7,.1,1); }
 @keyframes acc-down { from { height: 0; opacity: 0; } to { height: var(--radix-accordion-content-height); opacity: 1; } }
 @keyframes acc-up { from { height: var(--radix-accordion-content-height); opacity: 1; } to { height: 0; opacity: 0; } }
+/* Keep the 3D flow quiet behind text: fade the top/bottom edges and the reading area. */
+.flow-mask-hero {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 70%, transparent),
+    radial-gradient(ellipse 34% 40% at 50% 52%, rgb(0 0 0 / .18), #000 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 70%, transparent),
+    radial-gradient(ellipse 34% 40% at 50% 52%, rgb(0 0 0 / .18), #000 100%);
+  mask-composite: intersect;
+}
+@media (max-width: 767px) {
+  .flow-mask-hero {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 70%, transparent),
+      radial-gradient(ellipse 75% 26% at 50% 50%, rgb(0 0 0 / .12) 40%, #000 100%);
+    mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 70%, transparent),
+      radial-gradient(ellipse 75% 26% at 50% 50%, rgb(0 0 0 / .12) 40%, #000 100%);
+  }
+  /* text sits below the map card on phones */
+  .flow-mask-map {
+    -webkit-mask-image: linear-gradient(to bottom, #000 30%, rgb(0 0 0 / .22) 48%, rgb(0 0 0 / .22) 100%);
+    mask-image: linear-gradient(to bottom, #000 30%, rgb(0 0 0 / .22) 48%, rgb(0 0 0 / .22) 100%);
+  }
+}
+@media (min-width: 768px) {
+  .flow-mask-map {
+    -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / .3) 10%, rgb(0 0 0 / .45) 38%, #000 55%);
+    mask-image: linear-gradient(to right, rgb(0 0 0 / .3) 10%, rgb(0 0 0 / .45) 38%, #000 55%);
+  }
+}
 @keyframes marquee { to { transform: translateX(-50%); } }
