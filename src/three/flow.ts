@@ -1,11 +1,11 @@
 import * as THREE from 'three'
-import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 
 /**
- * "Small steps, connected": ribbons of light with particles (steps) streaming along them and
- * glossy beads (milestones) riding the flow.
- *  - hero: pastel ribbons on the light hero; they draw in once, then keep flowing.
- *  - map:  glowing ribbons on the dark Clarity Map, revealed by scroll progress.
+ * "Small steps, connected" as drifting silk: wide translucent ribbons that slowly fold and twist,
+ * with a pearly sheen where they turn away from you, and a few motes of light floating past.
+ * Everything moves on the GPU (vertex shaders), so the CPU does almost nothing per frame.
+ *  - hero: two pastel silks on the light hero; they unveil once, then breathe.
+ *  - map:  three glowing silks on the dark Clarity Map, unveiled and rippled by scroll.
  */
 export type FlowMode = 'hero' | 'map'
 
@@ -14,288 +14,245 @@ export type FlowHandle = {
   dispose: () => void
 }
 
+type Silk = { baseY: number; amp: number; freq: number; phase: number; width: number; depth: number; twist: number; speed: number; colors: [string, string, string] }
+
 type Preset = {
-  ribbons: number
-  particlesPerRibbon: number
-  palette: [string, string, string]
+  silks: Silk[]
+  motes: number
   blending: THREE.Blending
   opacity: number
-  particleAlpha: number
+  moteAlpha: number
+  tilt: number
   cameraZ: number
 }
 
 const PRESETS: Record<FlowMode, Preset> = {
   hero: {
-    ribbons: 3,
-    particlesPerRibbon: 110,
-    palette: ['#8e7ae0', '#ab4aba', '#e46fb8'],
+    silks: [
+      { baseY: 0.6, amp: 0.9, freq: 0.26, phase: 0.4, width: 1.5, depth: 1.4, twist: 1.25, speed: 0.16, colors: ['#b7a6f2', '#c9a0dc', '#f2b6d9'] },
+      { baseY: -1.3, amp: 0.7, freq: 0.31, phase: 2.6, width: 1.1, depth: 1.1, twist: 1.6, speed: 0.13, colors: ['#f0b3d6', '#c39ae6', '#9f8ae8'] },
+    ],
+    motes: 120,
     blending: THREE.NormalBlending,
-    opacity: 0.75,
-    particleAlpha: 0.75,
+    opacity: 0.8,
+    moteAlpha: 0.55,
+    tilt: -0.06,
     cameraZ: 12,
   },
   map: {
-    ribbons: 4,
-    particlesPerRibbon: 170,
-    palette: ['#7c66dc', '#c36fd0', '#f07ec2'],
+    silks: [
+      { baseY: 0.9, amp: 0.8, freq: 0.24, phase: 1.1, width: 1.6, depth: 1.6, twist: 1.3, speed: 0.12, colors: ['#5b45c2', '#a35ac9', '#e47ab9'] },
+      { baseY: -0.4, amp: 0.65, freq: 0.29, phase: 3.3, width: 1.2, depth: 1.3, twist: 1.7, speed: 0.1, colors: ['#7c5fe0', '#c072d0', '#f39ac9'] },
+      { baseY: -1.7, amp: 0.55, freq: 0.34, phase: 5.0, width: 0.9, depth: 1.0, twist: 1.5, speed: 0.14, colors: ['#4f3ba8', '#8f63d8', '#d977c0'] },
+    ],
+    motes: 240,
     blending: THREE.AdditiveBlending,
-    opacity: 0.9,
-    particleAlpha: 0.9,
+    opacity: 1,
+    moteAlpha: 0.8,
+    tilt: 0.3,
     cameraZ: 12,
   },
 }
 
-const SAMPLES = 400
+const LEN = 26
 
-/** Small deterministic PRNG so the composition is the same on every load. */
-function rng(seed: number) {
-  let s = seed >>> 0
-  return () => {
-    s = (s + 0x6d2b79f5) >>> 0
-    let t = s
-    t = Math.imul(t ^ (t >>> 15), t | 1)
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
-  }
-}
-
-function makeCurve(mode: FlowMode, i: number, n: number, rand: () => number) {
-  const pts: THREE.Vector3[] = []
-  const steps = 8
-  if (mode === 'hero') {
-    // Long, gentle waves crossing the hero, spread around the vertical middle.
-    const baseY = -1.9 + (i / Math.max(1, n - 1)) * 2.6
-    const amp = 0.7 + rand() * 0.6
-    const freq = 0.32 + rand() * 0.18
-    const phase = rand() * Math.PI * 2
-    for (let k = 0; k <= steps; k++) {
-      const x = -11 + (22 * k) / steps
-      pts.push(new THREE.Vector3(x, baseY + Math.sin(x * freq + phase) * amp, Math.cos(x * 0.25 + phase) * 1.6 - 1))
-    }
-  } else {
-    // Ribbons rising from lower-left to upper-right through depth, like a journey forward.
-    const spread = (i - (n - 1) / 2) * 0.9
-    const phase = rand() * Math.PI * 2
-    for (let k = 0; k <= steps; k++) {
-      const u = k / steps
-      const x = -10 + 20 * u
-      const y = -2.6 + 4.6 * u * u + spread + Math.sin(u * 5 + phase) * 0.55
-      const z = -5 + 5.5 * u + Math.cos(u * 4 + phase) * 1.2
-      pts.push(new THREE.Vector3(x, y, z))
-    }
-  }
-  return new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5)
-}
-
-const ribbonVert = /* glsl */ `
+const silkVert = /* glsl */ `
+  uniform float uTime;
+  uniform float uBaseY;
+  uniform float uAmp;
+  uniform float uFreq;
+  uniform float uPhase;
+  uniform float uWidth;
+  uniform float uDepth;
+  uniform float uTwist;
+  uniform float uLen;
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vView;
+
+  vec3 surf(float u, float v) {
+    float x = (u - 0.5) * uLen;
+    float t = uTime;
+    float y = uBaseY
+      + sin(x * uFreq + t + uPhase) * uAmp
+      + sin(x * uFreq * 2.1 - t * 0.6 + uPhase * 1.7) * uAmp * 0.22;
+    float z = cos(x * uFreq * 0.8 + t * 0.7 + uPhase) * uDepth;
+    // the cross-section slowly rolls along the length: this is what makes it read as silk
+    float a = sin(x * 0.2 + t * 0.55 + uPhase) * uTwist + 0.35;
+    float w = uWidth * (0.35 + 0.65 * sin(u * 3.14159));
+    return vec3(x, y + v * w * 0.5 * cos(a), z + v * w * 0.5 * sin(a));
+  }
+
   void main() {
-    vUv = uv;
-    vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    vNormal = normalize(normalMatrix * normal);
+    float u = uv.x;
+    float v = uv.y * 2.0 - 1.0;
+    vec3 p = surf(u, v);
+    vec3 du = surf(u + 0.002, v) - p;
+    vec3 dv = surf(u, v + 0.02) - p;
+    vec3 n = normalize(cross(du, dv));
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    vNormal = normalize(normalMatrix * n);
     vView = normalize(-mv.xyz);
+    vUv = vec2(u, v);
     gl_Position = projectionMatrix * mv;
   }
 `
 
-const ribbonFrag = /* glsl */ `
+const silkFrag = /* glsl */ `
   uniform float uTime;
-  uniform float uReveal;
   uniform float uOpacity;
-  uniform float uSeed;
+  uniform float uReveal;
   uniform vec3 uA;
   uniform vec3 uB;
   uniform vec3 uC;
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vView;
+
   void main() {
-    float x = vUv.x;
-    vec3 col = mix(mix(uA, uB, smoothstep(0.0, 0.5, x)), uC, smoothstep(0.5, 1.0, x));
-    float rim = pow(1.0 - abs(dot(vNormal, vView)), 1.4);
-    // pulses of light travelling along the ribbon
-    float p = fract(x * 2.2 - uTime * 0.11 + uSeed);
-    float pulse = exp(-pow((p - 0.5) * 9.0, 2.0));
-    float ends = smoothstep(0.0, 0.1, x) * smoothstep(1.0, 0.9, x);
-    float reveal = 1.0 - smoothstep(uReveal - 0.04, uReveal, x);
-    float head = exp(-pow((x - uReveal) * 40.0, 2.0)) * step(0.001, uReveal) * step(uReveal, 0.999);
-    float a = (0.22 + 0.55 * rim + 0.7 * pulse) * ends * reveal + head * 0.9;
-    gl_FragColor = vec4(col + pulse * 0.25 + head * 0.4, a * uOpacity);
+    float u = vUv.x;
+    float ndv = abs(dot(normalize(vNormal), normalize(vView)));
+    float fres = pow(1.0 - ndv, 2.2);
+
+    vec3 base = mix(mix(uA, uB, smoothstep(0.0, 0.55, u)), uC, smoothstep(0.45, 1.0, u));
+    // soft thin-film shimmer that drifts very slowly
+    vec3 pearl = 0.5 + 0.5 * cos(6.28318 * (vec3(0.0, 0.33, 0.67) + fres * 0.55 + u * 0.35 + uTime * 0.004));
+    vec3 col = mix(base, mix(base, pearl, 0.45), fres);
+    col += vec3(1.0) * pow(fres, 3.0) * 0.28;
+
+    // faint woven texture, barely there
+    float weave = 0.94 + 0.06 * sin(vUv.y * 60.0 + u * 8.0);
+
+    float edge = smoothstep(1.0, 0.25, abs(vUv.y));
+    float ends = smoothstep(0.0, 0.14, u) * smoothstep(1.0, 0.86, u);
+    float reveal = 1.0 - smoothstep(uReveal - 0.22, uReveal, u);
+    float a = (0.12 + 0.6 * fres) * edge * ends * reveal * weave * uOpacity;
+    if (a < 0.003) discard;
+    gl_FragColor = vec4(col, a);
   }
 `
 
-const pointsVert = /* glsl */ `
-  attribute float aSize;
-  attribute float aAlpha;
-  attribute vec3 aColor;
+const moteVert = /* glsl */ `
+  attribute vec4 aSeed;
+  uniform float uTime;
+  uniform float uLen;
   uniform float uDpr;
+  uniform float uReveal;
   varying float vAlpha;
-  varying vec3 vColor;
   void main() {
-    vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = aSize * uDpr * (9.0 / -mv.z);
-    vAlpha = aAlpha;
-    vColor = aColor;
+    float speed = 0.12 + aSeed.w * 0.22;
+    float x = mod(aSeed.x * uLen + uTime * speed, uLen) - uLen * 0.5;
+    float y = aSeed.y * 3.4 + sin(uTime * 0.25 + aSeed.w * 6.2831 + x * 0.18) * 0.35;
+    float z = aSeed.z * 4.0 - 1.5;
+    vec4 mv = modelViewMatrix * vec4(x, y, z, 1.0);
+    float u = x / uLen + 0.5;
+    float ends = smoothstep(0.0, 0.15, u) * smoothstep(1.0, 0.85, u);
+    float twinkle = 0.55 + 0.45 * sin(uTime * (0.6 + aSeed.w) + aSeed.x * 40.0);
+    vAlpha = ends * twinkle * (1.0 - smoothstep(uReveal - 0.2, uReveal, u));
+    gl_PointSize = (2.0 + aSeed.w * 4.5) * uDpr * (10.0 / -mv.z);
     gl_Position = projectionMatrix * mv;
   }
 `
 
-const pointsFrag = /* glsl */ `
+const moteFrag = /* glsl */ `
+  uniform vec3 uColor;
   uniform float uAlpha;
   varying float vAlpha;
-  varying vec3 vColor;
   void main() {
     float d = length(gl_PointCoord - 0.5);
     float a = smoothstep(0.5, 0.0, d);
-    a = a * a;
-    if (a < 0.01) discard;
-    gl_FragColor = vec4(vColor, a * vAlpha * uAlpha);
+    a *= a;
+    if (a * vAlpha < 0.01) discard;
+    gl_FragColor = vec4(uColor, a * vAlpha * uAlpha);
   }
 `
 
+/** Frame-rate independent smoothing factor. */
+const damp = (rate: number, dt: number) => 1 - Math.exp(-rate * dt)
+
 export function createFlow(canvas: HTMLCanvasElement, mode: FlowMode, opts: { reducedMotion: boolean }): FlowHandle {
   const preset = PRESETS[mode]
-  const rand = rng(mode === 'hero' ? 7 : 21)
   const coarse = window.matchMedia('(pointer: coarse)').matches
   const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 1.75)
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' })
   renderer.setPixelRatio(dpr)
   renderer.setClearColor(0x000000, 0)
-  renderer.outputColorSpace = THREE.SRGBColorSpace
-  renderer.toneMapping = THREE.ACESFilmicToneMapping
 
   const scene = new THREE.Scene()
   const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100)
-  camera.position.set(0, 0, preset.cameraZ)
-
-  const pmrem = new THREE.PMREMGenerator(renderer)
-  const room = new RoomEnvironment()
-  const envTex = pmrem.fromScene(room, 0.04).texture
-  scene.environment = envTex
-
   const world = new THREE.Group()
+  world.rotation.z = preset.tilt
   scene.add(world)
 
-  const colors = preset.palette.map((c) => new THREE.Color(c))
-  const disposables: { dispose: () => void }[] = [envTex, pmrem]
+  const disposables: { dispose: () => void }[] = []
 
-  // Ribbons
-  const curves: THREE.CatmullRomCurve3[] = []
-  const samples: Float32Array[] = []
-  const ribbonMats: THREE.ShaderMaterial[] = []
-  for (let i = 0; i < preset.ribbons; i++) {
-    const curve = makeCurve(mode, i, preset.ribbons, rand)
-    curves.push(curve)
-    const s = new Float32Array((SAMPLES + 1) * 3)
-    curve.getSpacedPoints(SAMPLES).forEach((p, k) => p.toArray(s, k * 3))
-    samples.push(s)
-
-    const radius = mode === 'hero' ? 0.035 + rand() * 0.04 : 0.04 + rand() * 0.05
-    const geo = new THREE.TubeGeometry(curve, 320, radius, 10, false)
+  // Silks
+  const geo = new THREE.PlaneGeometry(1, 1, coarse ? 160 : 240, 28)
+  disposables.push(geo)
+  const silkMats = preset.silks.map((s, i) => {
     const mat = new THREE.ShaderMaterial({
-      vertexShader: ribbonVert,
-      fragmentShader: ribbonFrag,
+      vertexShader: silkVert,
+      fragmentShader: silkFrag,
       transparent: true,
       depthWrite: false,
       side: THREE.DoubleSide,
       blending: preset.blending,
       uniforms: {
         uTime: { value: 0 },
-        uReveal: { value: opts.reducedMotion || mode === 'map' ? 1 : 0 },
         uOpacity: { value: preset.opacity },
-        uSeed: { value: rand() },
-        uA: { value: colors[0] },
-        uB: { value: colors[1] },
-        uC: { value: colors[2] },
+        uReveal: { value: 0 },
+        uLen: { value: LEN },
+        uBaseY: { value: s.baseY },
+        uAmp: { value: s.amp },
+        uFreq: { value: s.freq },
+        uPhase: { value: s.phase },
+        uWidth: { value: s.width },
+        uDepth: { value: s.depth },
+        uTwist: { value: s.twist },
+        uA: { value: new THREE.Color(s.colors[0]) },
+        uB: { value: new THREE.Color(s.colors[1]) },
+        uC: { value: new THREE.Color(s.colors[2]) },
       },
     })
-    ribbonMats.push(mat)
-    world.add(new THREE.Mesh(geo, mat))
-    disposables.push(geo, mat)
-  }
+    const mesh = new THREE.Mesh(geo, mat)
+    mesh.frustumCulled = false
+    mesh.renderOrder = i
+    world.add(mesh)
+    disposables.push(mat)
+    return mat
+  })
 
-  const sampleAt = (ribbon: number, t: number, out: THREE.Vector3) => {
-    const s = samples[ribbon]
-    const f = Math.min(Math.max(t, 0), 1) * SAMPLES
-    const k = Math.min(Math.floor(f), SAMPLES - 1)
-    const r = f - k
-    const a = k * 3
-    const b = a + 3
-    return out.set(s[a] + (s[b] - s[a]) * r, s[a + 1] + (s[b + 1] - s[a + 1]) * r, s[a + 2] + (s[b + 2] - s[a + 2]) * r)
+  // Motes
+  let seed = mode === 'hero' ? 11 : 29
+  const rand = () => {
+    seed = (seed * 16807) % 2147483647
+    return (seed - 1) / 2147483646
   }
-
-  // Particles (the "steps")
-  const count = preset.ribbons * preset.particlesPerRibbon
-  const pRibbon = new Uint8Array(count)
-  const pT = new Float32Array(count)
-  const pSpeed = new Float32Array(count)
-  const pOffset = new Float32Array(count * 3)
-  const positions = new Float32Array(count * 3)
-  const sizes = new Float32Array(count)
-  const alphas = new Float32Array(count)
-  const pColors = new Float32Array(count * 3)
-  const tmp = new THREE.Color()
-  for (let i = 0; i < count; i++) {
-    pRibbon[i] = i % preset.ribbons
-    pT[i] = rand()
-    pSpeed[i] = 0.012 + rand() * 0.025
-    const spread = mode === 'hero' ? 0.32 : 0.45
-    pOffset[i * 3] = (rand() - 0.5) * spread
-    pOffset[i * 3 + 1] = (rand() - 0.5) * spread
-    pOffset[i * 3 + 2] = (rand() - 0.5) * spread
-    sizes[i] = (mode === 'hero' ? 5 : 6) + rand() * (mode === 'hero' ? 9 : 12)
-    alphas[i] = 0.35 + rand() * 0.65
-    tmp.copy(colors[0]).lerp(colors[2], rand()).lerp(colors[1], rand() * 0.5)
-    tmp.toArray(pColors, i * 3)
-  }
-  const pGeo = new THREE.BufferGeometry()
-  const posAttr = new THREE.BufferAttribute(positions, 3)
-  posAttr.setUsage(THREE.DynamicDrawUsage)
-  const alphaAttr = new THREE.BufferAttribute(alphas.slice(), 1)
-  alphaAttr.setUsage(THREE.DynamicDrawUsage)
-  pGeo.setAttribute('position', posAttr)
-  pGeo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1))
-  pGeo.setAttribute('aAlpha', alphaAttr)
-  pGeo.setAttribute('aColor', new THREE.BufferAttribute(pColors, 3))
-  const pMat = new THREE.ShaderMaterial({
-    vertexShader: pointsVert,
-    fragmentShader: pointsFrag,
+  const seeds = new Float32Array(preset.motes * 4)
+  for (let i = 0; i < seeds.length; i++) seeds[i] = i % 4 === 1 ? rand() * 2 - 1 : rand()
+  const moteGeo = new THREE.BufferGeometry()
+  moteGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(preset.motes * 3), 3))
+  moteGeo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 4))
+  const moteMat = new THREE.ShaderMaterial({
+    vertexShader: moteVert,
+    fragmentShader: moteFrag,
     transparent: true,
     depthWrite: false,
     blending: preset.blending,
-    uniforms: { uDpr: { value: dpr }, uAlpha: { value: preset.particleAlpha } },
+    uniforms: {
+      uTime: { value: 0 },
+      uLen: { value: LEN },
+      uDpr: { value: dpr },
+      uReveal: { value: 0 },
+      uAlpha: { value: preset.moteAlpha },
+      uColor: { value: new THREE.Color(mode === 'hero' ? '#9b84e6' : '#f3c6ff') },
+    },
   })
-  const points = new THREE.Points(pGeo, pMat)
-  points.frustumCulled = false
-  world.add(points)
-  disposables.push(pGeo, pMat)
-
-  // Beads (the milestones), one per ribbon
-  const beadGeo = new THREE.SphereGeometry(1, 48, 32)
-  disposables.push(beadGeo)
-  const beads = curves.map((_, i) => {
-    const mat = new THREE.MeshPhysicalMaterial({
-      color: colors[i % colors.length].clone().lerp(new THREE.Color('#ffffff'), mode === 'hero' ? 0.35 : 0.15),
-      roughness: 0.12,
-      metalness: 0.1,
-      clearcoat: 1,
-      clearcoatRoughness: 0.08,
-      iridescence: 1,
-      iridescenceIOR: 1.35,
-      envMapIntensity: mode === 'hero' ? 1.1 : 1.4,
-      transparent: true,
-      opacity: 1,
-    })
-    disposables.push(mat)
-    const mesh = new THREE.Mesh(beadGeo, mat)
-    const r = (mode === 'hero' ? 0.16 : 0.2) + rand() * 0.1
-    mesh.scale.setScalar(r)
-    world.add(mesh)
-    return { mesh, mat, t0: rand(), speed: 0.018 + rand() * 0.012 }
-  })
+  const motes = new THREE.Points(moteGeo, moteMat)
+  motes.frustumCulled = false
+  world.add(motes)
+  disposables.push(moteGeo, moteMat)
 
   // Sizing
   let width = 0
@@ -309,78 +266,56 @@ export function createFlow(canvas: HTMLCanvasElement, mode: FlowMode, opts: { re
     height = h
     renderer.setSize(w, h, false)
     camera.aspect = w / h
-    // keep the composition's width on narrow (portrait) screens
-    const narrow = w / h < 1
-    camera.position.z = preset.cameraZ * (narrow ? 1.25 + (1 - w / h) * 0.9 : 1)
+    const ratio = w / h
+    camera.position.set(0, 0, preset.cameraZ * (ratio < 1 ? 1.2 + (1 - ratio) * 0.8 : 1))
     camera.updateProjectionMatrix()
     render()
   }
   const ro = new ResizeObserver(resize)
   if (canvas.parentElement) ro.observe(canvas.parentElement)
 
-  // Pointer parallax (fine pointers only)
-  const target = { x: 0, y: 0 }
+  // Pointer: a slow, gentle lean toward the cursor
+  const pointer = { x: 0, y: 0 }
   const onPointer = (e: PointerEvent) => {
-    target.x = (e.clientX / window.innerWidth - 0.5) * 2
-    target.y = (e.clientY / window.innerHeight - 0.5) * 2
+    pointer.x = (e.clientX / window.innerWidth - 0.5) * 2
+    pointer.y = (e.clientY / window.innerHeight - 0.5) * 2
   }
   if (!coarse && !opts.reducedMotion) window.addEventListener('pointermove', onPointer, { passive: true })
 
-  // State
   let progress = 0
-  let shownProgress = 0
-  let elapsed = opts.reducedMotion ? 20 : 0
+  let shown = 0
+  let clock = opts.reducedMotion ? 6 : 0
+  let intro = opts.reducedMotion ? 1 : 0
   let last = performance.now()
   let raf = 0
   let visible = true
   let running = false
-  const v = new THREE.Vector3()
 
   const update = (dt: number) => {
-    if (!opts.reducedMotion) elapsed += dt
-    shownProgress += (progress - shownProgress) * Math.min(1, dt * 6 || 1)
-    const reveal = mode === 'hero' ? Math.min(1, elapsed / 2.6) : 0.06 + shownProgress * 0.94
-    const eased = mode === 'hero' ? 1 - Math.pow(1 - reveal, 3) : reveal
-
-    ribbonMats.forEach((m) => {
-      m.uniforms.uTime.value = elapsed
-      m.uniforms.uReveal.value = eased
-    })
-
-    const boost = mode === 'map' ? 1 + Math.abs(progress - shownProgress) * 40 : 1
-    for (let i = 0; i < count; i++) {
-      if (!opts.reducedMotion) pT[i] = (pT[i] + pSpeed[i] * dt * boost) % 1
-      const t = pT[i]
-      sampleAt(pRibbon[i], t, v)
-      const wob = Math.sin(elapsed * 0.8 + i) * 0.04
-      positions[i * 3] = v.x + pOffset[i * 3]
-      positions[i * 3 + 1] = v.y + pOffset[i * 3 + 1] + wob
-      positions[i * 3 + 2] = v.z + pOffset[i * 3 + 2]
-      // hide steps beyond the revealed part of the path, fade near the ends
-      const edge = Math.min(1, t / 0.08, (1 - t) / 0.08)
-      alphaAttr.array[i] = t <= eased ? alphas[i] * Math.max(0, edge) : 0
+    if (!opts.reducedMotion) {
+      clock += dt
+      intro = Math.min(1, intro + dt / 3.4)
     }
-    posAttr.needsUpdate = true
-    alphaAttr.needsUpdate = true
+    shown += (progress - shown) * (dt ? damp(3.5, dt) : 1)
 
-    beads.forEach((b, i) => {
-      const t = mode === 'hero'
-        ? 0.08 + ((b.t0 + elapsed * b.speed) % 1) * 0.84
-        : Math.max(0.06, eased - 0.02 - i * 0.03)
-      sampleAt(i, t, v)
-      b.mesh.position.copy(v)
-      b.mesh.rotation.y = elapsed * 0.4 + i
-      const vis = mode === 'hero' ? Math.min(1, Math.max(0, (eased - t) * 8)) : 1
-      b.mat.opacity = vis
-      b.mesh.visible = vis > 0.01
+    // reveal runs a little past 1 so the soft wipe fully clears the far end
+    const reveal = mode === 'hero'
+      ? (1 - Math.pow(1 - intro, 3)) * 1.25
+      : 0.12 + Math.min(1, shown * 1.15) * 1.13
+    // on the map, scrolling also ripples the silk forward
+    const t = clock + (mode === 'map' ? shown * 2.4 : 0)
+
+    silkMats.forEach((m, i) => {
+      m.uniforms.uTime.value = t * (preset.silks[i].speed / 0.13)
+      m.uniforms.uReveal.value = reveal
     })
+    moteMat.uniforms.uTime.value = t
+    moteMat.uniforms.uReveal.value = reveal
 
-    // gentle drift + parallax
-    const tx = target.y * 0.08 + (mode === 'map' ? -0.12 + shownProgress * 0.18 : 0)
-    const ty = target.x * 0.14 + Math.sin(elapsed * 0.12) * 0.05
-    world.rotation.x += (tx - world.rotation.x) * Math.min(1, dt * 2.5 || 1)
-    world.rotation.y += (ty - world.rotation.y) * Math.min(1, dt * 2.5 || 1)
-    if (mode === 'map') world.position.z = shownProgress * 1.6
+    const k = dt ? damp(1.2, dt) : 1
+    world.rotation.x += (pointer.y * 0.05 - world.rotation.x) * k
+    world.rotation.y += (pointer.x * 0.08 + Math.sin(clock * 0.07) * 0.03 - world.rotation.y) * k
+    if (mode === 'map') world.position.z = shown * 1.2
   }
 
   function render() {
@@ -395,7 +330,6 @@ export function createFlow(canvas: HTMLCanvasElement, mode: FlowMode, opts: { re
     render()
     raf = requestAnimationFrame(frame)
   }
-
   const start = () => {
     if (running || opts.reducedMotion || !visible || document.hidden) return
     running = true
@@ -425,7 +359,7 @@ export function createFlow(canvas: HTMLCanvasElement, mode: FlowMode, opts: { re
     setProgress(p: number) {
       progress = Math.min(1, Math.max(0, p))
       if (opts.reducedMotion) {
-        shownProgress = progress
+        shown = progress
         update(0)
         render()
       }
