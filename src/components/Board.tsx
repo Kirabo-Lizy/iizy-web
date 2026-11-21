@@ -11,7 +11,7 @@ function Card({ icon: Icon, title, note, className, children, delay = 0 }: {
   icon: typeof Target; title: string; note: string; className?: string; children: ReactNode; delay?: number
 }) {
   return (
-    <Reveal delay={delay} className={cn('group relative flex flex-col overflow-hidden rounded-[28px] border border-mauve-4 bg-white p-5 transition-shadow duration-500 hover:shadow-[0_30px_60px_-36px_var(--violet-9)] sm:p-6', className)}>
+    <Reveal delay={delay} className={cn('group relative flex flex-col overflow-hidden rounded-card border border-mauve-4 bg-white p-5 transition-shadow duration-500 hover:shadow-[0_30px_60px_-36px_var(--violet-9)] sm:p-6', className)}>
       <header className="flex items-start gap-3">
         <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-violet-3 text-violet-11 transition-colors duration-300 group-hover:bg-violet-9 group-hover:text-white">
           <Icon className="size-[18px]" />

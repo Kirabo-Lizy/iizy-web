@@ -79,7 +79,7 @@ export function ClarityMap() {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="relative rounded-[32px] border border-mauve-6 bg-mauve-2/60 p-4 backdrop-blur-sm sm:p-6">
+            <div className="relative rounded-panel border border-mauve-6 bg-mauve-2/60 p-4 backdrop-blur-sm sm:p-6">
               <div className="flex items-center justify-between px-1 text-[12px] text-mauve-11">
                 <span>Your journey · so far</span><span>sample data</span>
               </div>

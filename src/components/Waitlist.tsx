@@ -61,7 +61,7 @@ export function Waitlist() {
             </p>
           </div>
 
-          <form onSubmit={submit} noValidate className="rounded-[28px] bg-white p-5 sm:p-7">
+          <form onSubmit={submit} noValidate className="rounded-card bg-white p-5 sm:p-7">
             <p className="text-sm font-medium text-mauve-11">I'm on</p>
             <ToggleGroup.Root
               type="single" value={platform} onValueChange={(v) => v && setPlatform(v as Platform)}
@@ -139,7 +139,7 @@ export function Waitlist() {
               </Dialog.Overlay>
               <Dialog.Content asChild forceMount>
                 <motion.div
-                  className="fixed left-1/2 top-1/2 z-50 w-[min(92vw,420px)] rounded-[32px] bg-white p-8 text-center shadow-2xl"
+                  className="fixed left-1/2 top-1/2 z-50 w-[min(92vw,420px)] rounded-panel bg-white p-8 text-center shadow-2xl"
                   initial={{ opacity: 0, scale: 0.9, x: '-50%', y: '-45%' }} animate={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }} exit={{ opacity: 0, scale: 0.95, x: '-50%', y: '-45%' }}
                   transition={{ type: 'spring', stiffness: 320, damping: 26 }}
                 >

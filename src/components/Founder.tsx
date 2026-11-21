@@ -18,7 +18,7 @@ export function Founder() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-[.9fr_1.1fr] md:gap-20">
         {/* profile card */}
         <Reveal className="relative mx-auto w-full max-w-sm">
-          <div className="relative rotate-[-2deg] rounded-[32px] border border-pink-5 bg-white p-6 shadow-[0_40px_80px_-40px_var(--pink-9)]">
+          <div className="relative rotate-[-2deg] rounded-panel border border-pink-5 bg-white p-6 shadow-[0_40px_80px_-40px_var(--pink-9)]">
             <span className="tape -top-3 left-10 -rotate-6" />
             <div className="flex items-center gap-4">
               <div className="rounded-full bg-[conic-gradient(var(--violet-9),var(--pink-9),var(--plum-9),var(--violet-9))] p-[3px]">

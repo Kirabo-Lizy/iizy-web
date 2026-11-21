@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLenis } from 'lenis/react'
 import { motion } from 'motion/react'
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Mail } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Mail } from 'lucide-react'
+import { CheckBadge } from '../components/CheckBadge'
 import { LegalHeader } from '../components/LegalHeader'
 import { Footer } from '../components/Footer'
 import { CONTACT } from '../lib/brand'
@@ -60,14 +61,14 @@ export default function LegalDoc({ slug }: { slug: string }) {
           </motion.div>
 
           <motion.aside key={`${slug}-short`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15, ease }}
-            className="relative mt-12 overflow-hidden rounded-[32px] bg-violet-12 p-7 text-white sm:p-9">
+            className="relative mt-12 overflow-hidden rounded-panel bg-violet-12 p-7 text-white sm:p-9">
             <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-violet-9/50 blur-3xl" />
             <img src={`/stickers/${meta.sticker}.png`} alt="" className="sticker absolute right-4 top-4 size-16 rotate-12 sm:right-8 sm:top-8 sm:size-20" />
             <p className="relative font-display text-2xl font-semibold">The short version</p>
             <ul className="relative mt-5 space-y-3 pr-12 sm:pr-24">
               {doc.short.map((t) => (
                 <li key={t} className="flex gap-3 text-violet-5">
-                  <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-pink-7 text-pink-12"><Check className="size-3" strokeWidth={3} /></span>{t}
+                  <CheckBadge tone="pink" className="mt-0.5 shrink-0" />{t}
                 </li>
               ))}
             </ul>
@@ -91,7 +92,7 @@ export default function LegalDoc({ slug }: { slug: string }) {
 
             <article className="min-w-0 space-y-4">
               {doc.sections.map((s) => (
-                <section key={s.id} id={s.id} className="scroll-mt-28 rounded-[28px] border border-mauve-4 bg-white p-6 sm:p-8">
+                <section key={s.id} id={s.id} className="scroll-mt-28 rounded-card border border-mauve-4 bg-white p-6 sm:p-8">
                   <h2 className="font-display text-2xl font-semibold text-violet-12 sm:text-[28px]">{s.title}</h2>
                   <div className="mt-4 space-y-4 text-[16px] leading-relaxed text-mauve-11">
                     {s.blocks.map((b, i) => 'p' in b
@@ -102,7 +103,7 @@ export default function LegalDoc({ slug }: { slug: string }) {
               ))}
 
               {doc.links.length > 0 && (
-                <div className="rounded-[28px] border border-dashed border-violet-6 p-6 sm:p-8">
+                <div className="rounded-card border border-dashed border-violet-6 p-6 sm:p-8">
                   <p className="text-xs font-medium uppercase tracking-[.16em] text-mauve-10">External references</p>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {doc.links.map((l) => (
@@ -116,7 +117,7 @@ export default function LegalDoc({ slug }: { slug: string }) {
                 </div>
               )}
 
-              <a href={`mailto:${CONTACT}`} className="flex flex-col gap-3 rounded-[28px] bg-pink-3 p-6 transition-colors hover:bg-pink-4 sm:flex-row sm:items-center sm:p-8">
+              <a href={`mailto:${CONTACT}`} className="flex flex-col gap-3 rounded-card bg-pink-3 p-6 transition-colors hover:bg-pink-4 sm:flex-row sm:items-center sm:p-8">
                 <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white text-pink-11"><Mail className="size-5" /></span>
                 <span className="min-w-0">
                   <span className="block text-[15px] text-mauve-11">iizy is operated by Kirabo Prosper Ruth, Uganda. Support, privacy requests and complaints:</span>

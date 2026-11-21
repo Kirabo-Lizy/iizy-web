@@ -78,6 +78,10 @@
   --font-display: "Chillax", ui-rounded, system-ui, sans-serif;
   --font-sans: "General Sans", system-ui, -apple-system, sans-serif;
 
+  /* Radii: card = standard surface, panel = large hero-level surface */
+  --radius-card: 28px;
+  --radius-panel: 32px;
+
   --ease-out-soft: cubic-bezier(.2, .7, .1, 1);
 }
 

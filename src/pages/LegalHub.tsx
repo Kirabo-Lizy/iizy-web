@@ -34,7 +34,7 @@ export default function LegalHub() {
               const m = legalMeta[slug]
               return (
                 <motion.li key={slug} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease, delay: 0.1 + i * 0.05 }}>
-                  <Link to={`/${slug}`} className="group relative flex h-full flex-col overflow-hidden rounded-[28px] border border-mauve-4 bg-white p-6 transition-all duration-500 hover:-translate-y-1 hover:border-violet-6 hover:shadow-[0_30px_60px_-36px_var(--violet-9)]">
+                  <Link to={`/${slug}`} className="group relative flex h-full flex-col overflow-hidden rounded-card border border-mauve-4 bg-white p-6 transition-all duration-500 hover:-translate-y-1 hover:border-violet-6 hover:shadow-[0_30px_60px_-36px_var(--violet-9)]">
                     <img src={`/stickers/${m.sticker}.png`} alt="" className="sticker absolute -right-3 -top-3 size-20 rotate-12 opacity-0 transition-all duration-500 group-hover:right-3 group-hover:top-3 group-hover:opacity-100 group-hover:rotate-6" />
                     <span className="grid size-11 place-items-center rounded-2xl bg-violet-3 text-violet-11 transition-colors duration-300 group-hover:bg-violet-9 group-hover:text-white">
                       <m.icon className="size-5" />
@@ -49,7 +49,7 @@ export default function LegalHub() {
               )
             })}
             <motion.li initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease, delay: 0.55 }}>
-              <a href={`mailto:${CONTACT}`} className="flex h-full flex-col justify-between rounded-[28px] bg-violet-12 p-6 text-white transition-transform duration-500 hover:-translate-y-1">
+              <a href={`mailto:${CONTACT}`} className="flex h-full flex-col justify-between rounded-card bg-violet-12 p-6 text-white transition-transform duration-500 hover:-translate-y-1">
                 <span className="grid size-11 place-items-center rounded-2xl bg-white/10 text-pink-7"><Mail className="size-5" /></span>
                 <span>
                   <span className="mt-5 block font-display text-xl font-semibold">Questions or requests?</span>

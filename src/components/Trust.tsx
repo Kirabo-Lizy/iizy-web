@@ -35,7 +35,7 @@ export function Trust() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           {items.map((it, i) => (
-            <Reveal key={it.t} delay={i * 0.07} className="rounded-[28px] border border-mauve-4 bg-white p-6 transition-transform duration-500 hover:-translate-y-1">
+            <Reveal key={it.t} delay={i * 0.07} className="rounded-card border border-mauve-4 bg-white p-6 transition-transform duration-500 hover:-translate-y-1">
               <span className="grid size-11 place-items-center rounded-2xl bg-pink-3 text-pink-11"><it.icon className="size-5" /></span>
               <h3 className="mt-5 font-display text-xl font-semibold text-violet-12">{it.t}</h3>
               <p className="mt-2 text-[15px] leading-relaxed text-mauve-11">{it.d}</p>
